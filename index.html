@@ -30,6 +30,8 @@
     <symbol id="i-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
     <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
     <symbol id="i-bot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 8V5.5"/><circle cx="12" cy="4" r="1.5"/><path d="M9 13h.01"/><path d="M15 13h.01"/><path d="M9.5 16.5h5"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="m19 6-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
   </svg>
 
   <div class="app">
@@ -214,55 +216,94 @@
         </div>
       </div>
 
-      <!-- ============ lumina bot view (human-like sub-agent) ============ -->
+      <!-- ============ lumina bot view (bots you talk to like people) ============ -->
       <div id="view-bot" class="view-bot" hidden>
-        <div class="bot-head">
-          <div class="bot-identity">
-            <span class="bot-head-avatar" aria-hidden="true">
-              <svg class="lumina-logo" viewBox="0 0 48 48" focusable="false">
-                <defs>
-                  <linearGradient id="lumina-g-bot" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#5b8cff"/><stop offset="100%" stop-color="#8b5cf6"/>
-                  </linearGradient>
-                  <mask id="lumina-m-bot"><rect width="48" height="48" fill="#fff"/><circle cx="34" cy="14" r="18" fill="#000"/></mask>
-                </defs>
-                <circle cx="24" cy="26" r="16" fill="url(#lumina-g-bot)" mask="url(#lumina-m-bot)"/>
-              </svg>
-            </span>
-            <div>
-              <div class="bot-name">Lumina Bot</div>
+        <aside class="bot-list-pane" aria-label="Your bots">
+          <div class="bot-list-head">
+            <span class="bot-list-title">Your bots</span>
+            <button id="bot-new" class="bot-new-btn" type="button" title="Create a new bot">
+              <svg class="icon"><use href="#i-plus"/></svg> New bot
+            </button>
+          </div>
+          <div class="bot-search-row">
+            <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+            <input id="bot-search" type="text" placeholder="Search bots" autocomplete="off" aria-label="Search bots">
+          </div>
+          <div id="bot-list" class="bot-list" role="list"></div>
+          <p class="bot-list-foot">Your bots and chats live in this browser only.</p>
+        </aside>
+
+        <section class="bot-chat-pane">
+          <button id="bot-back" class="bot-back" type="button" aria-label="Back to bot list">
+            <svg class="icon"><use href="#i-chevron-left"/></svg>
+          </button>
+          <div id="bot-head" class="bot-head" hidden>
+            <span id="bot-head-avatar" aria-hidden="true"></span>
+            <div class="bot-head-text">
+              <div class="bot-name" id="bot-name"></div>
               <div class="bot-status" id="bot-status">always up for a chat</div>
             </div>
+            <button id="bot-delete" class="bot-delete" type="button" title="Delete this bot" aria-label="Delete this bot">
+              <svg class="icon"><use href="#i-trash"/></svg>
+            </button>
           </div>
-          <button id="bot-clear" class="bot-clear" type="button" aria-label="Clear conversation" title="Clear conversation">
-            <svg class="icon"><use href="#i-close"/></svg> Clear
-          </button>
-        </div>
 
-        <section id="bot-welcome" aria-label="Lumina Bot welcome">
-          <h2>Hey, I'm <span class="grad-text">Lumina Bot</span></h2>
-          <p>Talk to me like you'd text a friend — I'll keep it casual, and when you want something done, I just do it. No lectures, no bullet-point essays.</p>
-          <div class="bot-suggestions">
-            <button type="button" class="bot-suggestion" data-bot-prompt="hey! what's up?">hey! what's up?</button>
-            <button type="button" class="bot-suggestion" data-bot-prompt="help me plan my week, keep it chill">help me plan my week, keep it chill</button>
-            <button type="button" class="bot-suggestion" data-bot-prompt="roast my code style (gently)">roast my code style (gently)</button>
-            <button type="button" class="bot-suggestion" data-bot-prompt="pick a movie for tonight and sell me on it">pick a movie for tonight and sell me on it</button>
+          <div id="bot-empty" class="bot-empty">
+            <span class="bot-empty-icon" aria-hidden="true"><svg class="icon"><use href="#i-bot"/></svg></span>
+            <h2>No bot here yet</h2>
+            <p>Create a bot, tell it who it is, and start talking to it like you would with a person.</p>
+            <button id="bot-empty-new" class="bot-suggestion" type="button">Create your first bot</button>
+          </div>
+
+          <section id="bot-welcome" aria-label="New conversation" hidden>
+            <h2>Hey, I'm <span class="grad-text" id="bot-welcome-name">Bot</span></h2>
+            <p id="bot-welcome-desc">Talk to me like you'd text a friend — casual, quick, and when you want something done, I just do it.</p>
+            <div class="bot-suggestions">
+              <button type="button" class="bot-suggestion" data-bot-prompt="hey! what's up?">hey! what's up?</button>
+              <button type="button" class="bot-suggestion" data-bot-prompt="give me your honest opinion on something">give me your honest opinion on something</button>
+              <button type="button" class="bot-suggestion" data-bot-prompt="help me plan my week, keep it chill">help me plan my week, keep it chill</button>
+              <button type="button" class="bot-suggestion" data-bot-prompt="tell me a fun fact about yourself">tell me a fun fact about yourself</button>
+            </div>
+          </section>
+
+          <div id="bot-messages" role="log" aria-live="polite" aria-label="Bot messages"></div>
+
+          <div id="bot-composer-area" hidden>
+            <div class="composer">
+              <div class="composer-input-row">
+                <textarea id="bot-input" rows="1" placeholder="Message your bot..." aria-label="Message bot"></textarea>
+              </div>
+              <div class="composer-bottom">
+                <span class="bot-hint">Bots talk like people — casual, quick, no lectures.</span>
+                <button id="bot-send" class="send-btn" type="button" aria-label="Send message" disabled>
+                  <svg class="icon icon-send"><use href="#i-arrow-up"/></svg>
+                  <svg class="icon icon-stop"><use href="#i-stop"/></svg>
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
-        <div id="bot-messages" role="log" aria-live="polite" aria-label="Lumina Bot messages"></div>
-
-        <div id="bot-composer-area">
-          <div class="composer">
-            <div class="composer-input-row">
-              <textarea id="bot-input" rows="1" placeholder="Say something to Lumina Bot..." aria-label="Message Lumina Bot"></textarea>
+        <!-- create-bot dialog -->
+        <div id="bot-modal" class="bot-modal" hidden role="dialog" aria-modal="true" aria-labelledby="bot-modal-title">
+          <div class="bot-modal-backdrop" data-bot-modal-close></div>
+          <div class="bot-modal-card">
+            <h3 id="bot-modal-title">Create a new bot</h3>
+            <label class="bot-field">
+              <span>Name</span>
+              <input id="bot-modal-name" type="text" maxlength="32" placeholder="e.g. Coach Sam, Aunt Mei, Code Buddy" autocomplete="off">
+            </label>
+            <label class="bot-field">
+              <span>Who are they? How do they talk?</span>
+              <textarea id="bot-modal-persona" rows="3" maxlength="400" placeholder="e.g. Your chill best friend — sarcastic, loves games, always keeps it real but has your back."></textarea>
+            </label>
+            <div class="bot-field">
+              <span>Avatar</span>
+              <div id="bot-modal-colors" class="bot-color-row"></div>
             </div>
-            <div class="composer-bottom">
-              <span class="bot-hint">Lumina Bot talks like a person — casual, quick, no lectures.</span>
-              <button id="bot-send" class="send-btn" type="button" aria-label="Send message" disabled>
-                <svg class="icon icon-send"><use href="#i-arrow-up"/></svg>
-                <svg class="icon icon-stop"><use href="#i-stop"/></svg>
-              </button>
+            <div class="bot-modal-actions">
+              <button id="bot-modal-cancel" class="bot-ghost-btn" type="button">Cancel</button>
+              <button id="bot-modal-create" class="bot-primary-btn" type="button">Create bot</button>
             </div>
           </div>
         </div>
