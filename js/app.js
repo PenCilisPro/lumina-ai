@@ -255,10 +255,11 @@
       }
     });
 
-    /* view switching: Chat <-> Lumina Code terminal */
+    /* view switching: Chat <-> Lumina Code terminal <-> Lumina Bot */
     els.tabs = Array.prototype.slice.call(document.querySelectorAll(".top-tab"));
     els.viewChat = document.getElementById("view-chat");
     els.viewCode = document.getElementById("view-code");
+    els.viewBot = document.getElementById("view-bot");
     els.tabs.forEach(function (t) {
       t.addEventListener("click", function () { switchView(t.dataset.view); });
     });
@@ -273,12 +274,14 @@
       t.classList.toggle("active", on);
       t.setAttribute("aria-selected", on ? "true" : "false");
     });
-    els.viewChat.hidden = v === "code";
+    els.viewChat.hidden = v !== "chat";
     els.viewCode.hidden = v !== "code";
+    if (els.viewBot) els.viewBot.hidden = v !== "bot";
     if (v === "code") {
       LM.code.setVisible(true);
+    } else if (v === "bot" && LM.bot) {
+      LM.bot.onVisible();
     } else {
-      LM.code.setVisible(false);
       const composerInput = document.getElementById("composer-input");
       if (composerInput) composerInput.focus();
     }
