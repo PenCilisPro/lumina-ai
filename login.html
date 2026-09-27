@@ -309,6 +309,11 @@
       var recovery = /type=recovery/.test(location.hash);
       if (recovery) show("reset");
 
+      /* Landing-page "Get started" links arrive as ?mode=signup */
+      try {
+        if (new URLSearchParams(location.search).get("mode") === "signup") show("signup");
+      } catch (e) { /* ignore malformed URLs */ }
+
       /* Supabase error links (expired/revoked) arrive as
          #error=...&error_description=... — surface them instead of a dead page. */
       if (location.hash.indexOf("error") >= 0) {

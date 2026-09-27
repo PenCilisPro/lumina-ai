@@ -36,6 +36,18 @@
     return h;
   }
 
+  /* Supabase session token for the backend's auth gate (js/auth.js).
+     Empty when Supabase isn't configured or there's no session. */
+  async function authToken() {
+    try {
+      if (!LM.auth || !LM.auth.isConfigured()) return "";
+      const session = await LM.auth.getSession();
+      return session && session.access_token ? session.access_token : "";
+    } catch (e) {
+      return "";
+    }
+  }
+
   function buildBody(opts, flags) {
     const levels = LM.config.thinkingLevels;
     const level = levels[opts.thinking] || levels[LM.config.defaults.thinking] || levels.medium;
@@ -117,9 +129,12 @@
     }
     let res;
     try {
+      const headers = buildHeaders(!!opts.stream);
+      const token = await authToken();
+      if (token) headers["Authorization"] = "Bearer " + token;
       res = await fetch(backend.chatUrl, {
         method: "POST",
-        headers: buildHeaders(!!opts.stream),
+        headers: headers,
         body: JSON.stringify(buildBody(opts, flags)),
         signal: opts.signal
       });

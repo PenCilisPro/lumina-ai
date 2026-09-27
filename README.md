@@ -39,9 +39,14 @@ Think, create, and explore with Lumina.
 
 ## Sign in with Supabase
 
-Lumina ships with an email + password login/signup page (`login.html`) powered by
-[Supabase Auth](https://supabase.com/docs/guides/auth). While Supabase is not
-configured, the app runs exactly as before with no login. To enable it:
+Lumina ships with a public landing page (`landing.html`) and an email + password
+login/signup page (`login.html`) powered by [Supabase Auth](https://supabase.com/docs/guides/auth).
+Visitors without a session are redirected from the chat and settings pages to the
+landing page, which links to sign-in / sign-up. The flow:
+
+```
+visitor → index.html (chat) ──no session──> landing.html → login.html ──signed in──> index.html
+```
 
 1. **Create a free project** at [supabase.com](https://supabase.com) (or use an existing one).
 2. **Copy your keys** — Supabase Dashboard → Project Settings → API:
@@ -58,8 +63,8 @@ configured, the app runs exactly as before with no login. To enable it:
 3. **Allow the redirect URL** — Supabase Dashboard → Authentication → URL
    Configuration → add `http://localhost:8399/login.html` (and your production
    URL) to **Redirect URLs**. This is where password-reset emails send users back.
-4. **Restart the app** and open the app — visitors without a session are now
-   redirected to the login page. You can also open `http://localhost:8399/login.html` directly.
+4. **Restart the app** — the chat and settings pages now require signing in.
+   You can also open `http://localhost:8399/landing.html` or `/login.html` directly.
 
 Notes:
 
@@ -197,7 +202,8 @@ Enable CORS (or serve Lumina from the same origin) if the frontend and backend r
 
 **Interface**
 - ChatGPT-style layout: flat sidebar, centered conversation column, soft user bubbles, plain assistant messages
-- **Login / signup** (`login.html`): Supabase email + password auth with sign in, create account, forgot/reset password, and optional gating of the whole app (enable by filling in `js/supabase-config.js` — inactive until then)
+- **Public landing page** (`landing.html`): hero, feature overview, and how-it-works — visitors without a session land here
+- **Login / signup** (`login.html`): Supabase email + password auth with sign in, create account, forgot/reset password — the chat and settings pages require signing in (gated by `js/supabase-config.js`; set `required: false` there to make login optional)
 - Signed-in email shown in the sidebar footer and under Settings → Account, with one-click sign out
 - Custom animated dropdowns for every selector (models, thinking, language, styles…)
 - Smooth animations throughout: message entrances, dropdown pop, drawer, modal, toast, theme transitions
@@ -214,6 +220,7 @@ Enable CORS (or serve Lumina from the same origin) if the frontend and backend r
 Lumina/
 ├── index.html              Main chat application
 ├── login.html              Login / signup page (Supabase Auth)
+├── landing.html            Public landing page (visitors without a session land here)
 ├── settings.html           Full settings page
 ├── css/
 │   ├── main.css            Shell, sidebar, topbar, dropdowns, slider, composer, animations
@@ -221,6 +228,7 @@ Lumina/
 │   ├── settings.css        Settings page
 │   ├── code.css            Lumina Code terminal styling
 │   ├── auth.css            Login / signup page styling
+│   ├── landing.css         Public landing page styling
 │   └── themes.css          Design tokens, theme/accent palettes, modifiers
 ├── js/
 │   ├── config.js           ★ THE file to edit: backend URL, models, defaults, thinking levels

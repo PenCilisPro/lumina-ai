@@ -17,8 +17,8 @@
 window.LM = window.LM || {};
 
 const LUMINA_SUPABASE = {
-  url: "",      // <<< paste your Project URL here
-  anonKey: "",  // <<< paste your anon / publishable key here
+  url: "https://ifluozcvuwlmhrljyfte.supabase.co",      // <<< paste your Project URL here
+  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmbHVvemN2dXdsbWhybGp5ZnRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA0OTM3NjcsImV4cCI6MjEwNjA2OTc2N30.neBMOJPUKuLj5OByU0zL_hXKvDKJeqdFpvAqUwO7yeQ",  // <<< paste your anon / publishable key here
 
   /* When true (and the keys above are set), index.html and settings.html
      redirect visitors without a session to login.html. Set to false to

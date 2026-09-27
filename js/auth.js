@@ -15,6 +15,7 @@
   const VENDOR_PATH = "js/vendor/supabase.js";
   const CDN_FALLBACK = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js";
   const LOGIN_PAGE = "login.html";
+  const LANDING_PAGE = "landing.html";
 
   let client = null;
   let clientPromise = null;
@@ -207,13 +208,13 @@
     if (page === "app") {
       c.auth.onAuthStateChange(function (event, sess) {
         if (event === "SIGNED_OUT" && gatingEnabled()) {
-          location.replace(LOGIN_PAGE);
+          location.replace(LANDING_PAGE);
           return;
         }
         applyProfileUI(event === "SIGNED_OUT" ? null : sess);
       });
       if (!session && gatingEnabled()) {
-        location.replace(LOGIN_PAGE + "?next=" + encodeURIComponent(location.pathname + location.search));
+        location.replace(LANDING_PAGE + "?next=" + encodeURIComponent(location.pathname + location.search));
         return null;
       }
       bindSignOutButtons();

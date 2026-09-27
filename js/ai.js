@@ -91,7 +91,9 @@
     let detail = "";
 
     if (status === 401 || status === 403) {
-      detail = "The backend rejected this request. Check the credentials your backend uses for the AI provider.";
+      detail = /sign in/i.test(body)
+        ? "Your session has expired or is missing. Refresh the page to sign in again."
+        : "The backend rejected this request. Check the credentials your backend uses for the AI provider.";
     } else if (status === 404) {
       detail = "Endpoint or model not found. Check backend.chatUrl and the model IDs in js/config.js → models.";
     } else if (status === 429) {
