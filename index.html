@@ -237,6 +237,7 @@
           <button id="bot-back" class="bot-back" type="button" aria-label="Back to bot list">
             <svg class="icon"><use href="#i-chevron-left"/></svg>
           </button>
+          <input id="bot-pfp-change" type="file" accept="image/*" hidden>
           <div id="bot-head" class="bot-head" hidden>
             <span id="bot-head-avatar" aria-hidden="true"></span>
             <div class="bot-head-text">
@@ -297,6 +298,17 @@
               <span>Who are they? How do they talk?</span>
               <textarea id="bot-modal-persona" rows="3" maxlength="400" placeholder="e.g. Your chill best friend — sarcastic, loves games, always keeps it real but has your back."></textarea>
             </label>
+            <div class="bot-field">
+              <span>Photo (optional)</span>
+              <div class="bot-pfp-row">
+                <span id="bot-modal-pfp-preview" class="bot-pfp-preview" aria-hidden="true">No photo</span>
+                <div class="bot-pfp-actions">
+                  <button id="bot-modal-pfp-btn" class="bot-ghost-btn" type="button">Add photo</button>
+                  <button id="bot-modal-pfp-remove" class="bot-ghost-btn" type="button" hidden>Remove</button>
+                </div>
+                <input id="bot-modal-pfp-file" type="file" accept="image/*" hidden>
+              </div>
+            </div>
             <div class="bot-field">
               <span>Avatar</span>
               <div id="bot-modal-colors" class="bot-color-row"></div>

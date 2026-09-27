@@ -44,6 +44,7 @@
     controller: null,
     userAborted: false,
     modalColor: 0,
+    modalPfp: null,
     stick: true
   };
 
@@ -80,6 +81,7 @@
       persona: "",
       color: p.color,
       shape: p.shape,
+      pfp: null,
       messages: [],
       createdAt: Date.now(),
       updatedAt: Date.now()
@@ -121,9 +123,37 @@
   }
 
   function avatarHtml(profile, cls) {
+    if (profile.pfp) {
+      return '<span class="bot-avatar ' + (cls || "") + '" style="border-radius:50%">' +
+        '<img src="' + profile.pfp + '" alt=""></span>';
+    }
     const letter = ui_escape((profile.name || "B").trim().charAt(0).toUpperCase() || "B");
     return '<span class="bot-avatar ' + (cls || "") + '" style="background:' + profile.color +
       ";border-radius:" + profile.shape + '">' + letter + "</span>";
+  }
+
+  /* photo -> square data URL, downscaled so localStorage stays small */
+  function fileToPfpDataUrl(file) {
+    return new Promise(function (resolve, reject) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        const img = new Image();
+        img.onload = function () {
+          const size = 160;
+          const canvas = document.createElement("canvas");
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext("2d");
+          const s = Math.min(img.width, img.height);
+          ctx.drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, size, size);
+          resolve(canvas.toDataURL("image/jpeg", 0.85));
+        };
+        img.onerror = function () { reject(new Error("Could not read that image.")); };
+        img.src = reader.result;
+      };
+      reader.onerror = function () { reject(new Error("Could not read that file.")); };
+      reader.readAsDataURL(file);
+    });
   }
 
   function plainPreview(text) {
@@ -187,8 +217,7 @@
   }
 
   function selectBot(id) {
-    if (state.activeId === id && els.head && !els.head.hidden) return;
-    if (state.generating) stop();
+    if (state.generating && state.activeId !== id) stop();
     state.activeId = id;
     save();
     renderList();
@@ -440,11 +469,30 @@
 
   function openModal() {
     state.modalColor = Math.floor(Math.random() * PALETTE.length);
+    state.modalPfp = null;
+    renderPfpPreview();
     els.modalName.value = "";
     els.modalPersona.value = "";
     renderColorSwatches();
     els.modal.hidden = false;
     els.modalName.focus();
+  }
+
+  function renderPfpPreview() {
+    els.modalPfpPreview.innerHTML = state.modalPfp
+      ? '<img src="' + state.modalPfp + '" alt="">'
+      : "No photo";
+    els.modalPfpRemove.hidden = !state.modalPfp;
+    els.modalPfpBtn.textContent = state.modalPfp ? "Change photo" : "Add photo";
+  }
+
+  async function pickPfpFile(file, onDone) {
+    if (!file) return;
+    try {
+      onDone(await fileToPfpDataUrl(file));
+    } catch (e) {
+      window.alert(e.message || "Could not use that image.");
+    }
   }
 
   function closeModal() {
@@ -461,6 +509,7 @@
       persona: els.modalPersona.value.trim().slice(0, 400),
       color: p.color,
       shape: p.shape,
+      pfp: state.modalPfp || null,
       messages: [],
       createdAt: Date.now(),
       updatedAt: Date.now()
@@ -525,6 +574,11 @@
       modalName: document.getElementById("bot-modal-name"),
       modalPersona: document.getElementById("bot-modal-persona"),
       modalColors: document.getElementById("bot-modal-colors"),
+      modalPfpPreview: document.getElementById("bot-modal-pfp-preview"),
+      modalPfpBtn: document.getElementById("bot-modal-pfp-btn"),
+      modalPfpRemove: document.getElementById("bot-modal-pfp-remove"),
+      modalPfpFile: document.getElementById("bot-modal-pfp-file"),
+      pfpChange: document.getElementById("bot-pfp-change"),
       modalCreate: document.getElementById("bot-modal-create"),
       modalCancel: document.getElementById("bot-modal-cancel")
     };
@@ -544,6 +598,37 @@
     });
     els.modalName.addEventListener("keydown", function (e) {
       if (e.key === "Enter") { e.preventDefault(); createBot(); }
+    });
+    els.modalPfpBtn.addEventListener("click", function () {
+      els.modalPfpFile.value = "";
+      els.modalPfpFile.click();
+    });
+    els.modalPfpRemove.addEventListener("click", function () {
+      state.modalPfp = null;
+      renderPfpPreview();
+    });
+    els.modalPfpFile.addEventListener("change", function () {
+      pickPfpFile(els.modalPfpFile.files[0], function (dataUrl) {
+        state.modalPfp = dataUrl;
+        renderPfpPreview();
+      });
+    });
+    /* click the bot's avatar in the header to swap its photo */
+    els.headAvatar.addEventListener("click", function () {
+      if (!activeBot()) return;
+      els.pfpChange.value = "";
+      els.pfpChange.click();
+    });
+    els.pfpChange.addEventListener("change", function () {
+      const profile = activeBot();
+      if (!profile) return;
+      pickPfpFile(els.pfpChange.files[0], function (dataUrl) {
+        profile.pfp = dataUrl;
+        profile.updatedAt = Date.now();
+        save();
+        renderList();
+        renderChat();
+      });
     });
     els.del.addEventListener("click", deleteBot);
     els.back.addEventListener("click", function () {
