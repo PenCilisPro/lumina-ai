@@ -5,6 +5,7 @@
   flex: 1;
   min-height: 0;
   display: flex;
+  background: #000;
 }
 
 /* ================= bot list (sidebar pane) ================= */

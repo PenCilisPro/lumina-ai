@@ -725,8 +725,10 @@ button { font-family: inherit; }
 
 .composer-input-row { display: flex; align-items: flex-end; }
 
-#composer-input {
+#composer-input,
+#bot-input {
   flex: 1;
+  min-width: 0;
   min-height: 46px;
   max-height: 220px;
   padding: 10px 8px;
@@ -737,10 +739,13 @@ button { font-family: inherit; }
   font-size: calc(15.5px * var(--font-scale));
   line-height: 1.5;
   color: var(--text-primary);
+  box-sizing: border-box;
 }
 
-#composer-input:focus { outline: none; }
-#composer-input::placeholder { color: var(--text-muted); }
+#composer-input:focus,
+#bot-input:focus { outline: none; }
+#composer-input::placeholder,
+#bot-input::placeholder { color: var(--text-muted); }
 
 .composer-bottom {
   display: flex;
@@ -1087,7 +1092,8 @@ button { font-family: inherit; }
 .lumina-compact .msg-row { padding: 5px 0; }
 .lumina-compact #messages { padding-top: 12px; }
 .lumina-compact .composer { padding: 7px 10px 7px; }
-.lumina-compact #composer-input { min-height: 38px; }
+.lumina-compact #composer-input,
+.lumina-compact #bot-input { min-height: 38px; }
 .lumina-compact .conv-item { padding: 6px 10px; }
 .lumina-compact .suggestion { padding: 10px 13px; }
 
