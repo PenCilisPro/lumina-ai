@@ -37,6 +37,44 @@ Think, create, and explore with Lumina.
 
 ---
 
+## Sign in with Supabase
+
+Lumina ships with an email + password login/signup page (`login.html`) powered by
+[Supabase Auth](https://supabase.com/docs/guides/auth). While Supabase is not
+configured, the app runs exactly as before with no login. To enable it:
+
+1. **Create a free project** at [supabase.com](https://supabase.com) (or use an existing one).
+2. **Copy your keys** — Supabase Dashboard → Project Settings → API:
+   paste the **Project URL** and the **anon / publishable key** into `js/supabase-config.js`:
+   ```javascript
+   const LUMINA_SUPABASE = {
+     url: "https://abcd1234.supabase.co",
+     anonKey: "eyJhbGciOi...",   // the anon key — safe for the browser
+     required: true
+   };
+   ```
+   The anon key is a *publishable* key designed for browser code — never put the
+   `service_role` secret key there.
+3. **Allow the redirect URL** — Supabase Dashboard → Authentication → URL
+   Configuration → add `http://localhost:8399/login.html` (and your production
+   URL) to **Redirect URLs**. This is where password-reset emails send users back.
+4. **Restart the app** and open the app — visitors without a session are now
+   redirected to the login page. You can also open `http://localhost:8399/login.html` directly.
+
+Notes:
+
+- **Email confirmation**: new Supabase projects confirm emails by default — new
+  users get a "check your inbox" message after signup. Toggle it under
+  Authentication → Providers → Email if you want instant sign-in.
+- **Optional login**: set `required: false` in `js/supabase-config.js` to offer
+  the login page without forcing a sign-in to use Lumina.
+- The signed-in user's email appears in the sidebar footer (with a sign-out
+  button) and under Settings → Account.
+- The Supabase client library is vendored at `js/vendor/supabase.js`
+  (@supabase/supabase-js v2 UMD build) — no build step or npm install needed.
+
+---
+
 ## Backend contract
 
 Lumina sends an **OpenAI chat-completions compatible** request — most existing proxy/gateway implementations work unchanged:
@@ -124,6 +162,8 @@ Enable CORS (or serve Lumina from the same origin) if the frontend and backend r
 
 > All AI traffic goes through your backend, which owns the provider credentials. The frontend never sees or stores keys. Conversations are saved only in the user's browser (localStorage) and are never sent anywhere except your configured backend endpoint.
 
+> When Supabase login is enabled, only the **publishable anon key** appears in the frontend (`js/supabase-config.js`) — that is its intended use. Never place the `service_role` secret key in any frontend file. Any database tables you add later should have Row Level Security enabled so the anon key alone grants nothing beyond your policies.
+
 ---
 
 ## Features
@@ -157,6 +197,8 @@ Enable CORS (or serve Lumina from the same origin) if the frontend and backend r
 
 **Interface**
 - ChatGPT-style layout: flat sidebar, centered conversation column, soft user bubbles, plain assistant messages
+- **Login / signup** (`login.html`): Supabase email + password auth with sign in, create account, forgot/reset password, and optional gating of the whole app (enable by filling in `js/supabase-config.js` — inactive until then)
+- Signed-in email shown in the sidebar footer and under Settings → Account, with one-click sign out
 - Custom animated dropdowns for every selector (models, thinking, language, styles…)
 - Smooth animations throughout: message entrances, dropdown pop, drawer, modal, toast, theme transitions
 - Theme presets: Lumina Dark (default), Midnight, Aurora, Deep Space, Light, Custom + accent colors (Blue + Purple default)
@@ -171,15 +213,20 @@ Enable CORS (or serve Lumina from the same origin) if the frontend and backend r
 ```
 Lumina/
 ├── index.html              Main chat application
+├── login.html              Login / signup page (Supabase Auth)
 ├── settings.html           Full settings page
 ├── css/
 │   ├── main.css            Shell, sidebar, topbar, dropdowns, slider, composer, animations
 │   ├── chat.css            Messages, markdown, code blocks, syntax tokens
 │   ├── settings.css        Settings page
 │   ├── code.css            Lumina Code terminal styling
+│   ├── auth.css            Login / signup page styling
 │   └── themes.css          Design tokens, theme/accent palettes, modifiers
 ├── js/
 │   ├── config.js           ★ THE file to edit: backend URL, models, defaults, thinking levels
+│   ├── supabase-config.js  ★ Fill in your Supabase URL + anon key to enable login
+│   ├── auth.js             Supabase auth: login/signup/reset, session gating, profile UI
+│   ├── vendor/supabase.js  Vendored @supabase/supabase-js v2 (UMD build)
 │   ├── ui.js               Shared utils: toast, modals, clipboard, custom dropdown
 │   ├── storage.js          localStorage: conversations + settings
 │   ├── markdown.js         Self-contained markdown renderer + syntax highlighter

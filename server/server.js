@@ -38,6 +38,7 @@ const MIME = {
 const STATIC_ROUTES = [
   "/", "index.html",
   "/index.html", "index.html",
+  "/login.html", "login.html",
   "/settings.html", "settings.html",
   "/README.md", "README.md",
   "/package.json", "package.json",
@@ -47,6 +48,7 @@ const STATIC_ROUTES = [
   "/css/settings.css", "css/settings.css",
   "/css/themes.css", "css/themes.css",
   "/css/code.css", "css/code.css",
+  "/css/auth.css", "css/auth.css",
   "/js/config.js", "js/config.js",
   "/js/ui.js", "js/ui.js",
   "/js/storage.js", "js/storage.js",
@@ -57,7 +59,10 @@ const STATIC_ROUTES = [
   "/js/chat.js", "js/chat.js",
   "/js/code.js", "js/code.js",
   "/js/app.js", "js/app.js",
-  "/js/settings.js", "js/settings.js"
+  "/js/settings.js", "js/settings.js",
+  "/js/supabase-config.js", "js/supabase-config.js",
+  "/js/auth.js", "js/auth.js",
+  "/js/vendor/supabase.js", "js/vendor/supabase.js"
 ];
 
 const ROOT_PREFIX = ROOT.replace(/[\\/]+$/, "") + "/";

@@ -25,6 +25,7 @@
     <symbol id="i-stop" viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="7" width="10" height="10" rx="2"/></symbol>
     <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15.3 15.3 0 0 1 4 9 15.3 15.3 0 0 1-4 9 15.3 15.3 0 0 1-4-9 15.3 15.3 0 0 1 4-9z"/></symbol>
     <symbol id="i-terminal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 17 6-6-6-6"/><path d="M12 19h8"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
   </svg>
 
   <div class="app">
@@ -64,12 +65,15 @@
 
       <div class="sidebar-footer">
         <div class="profile">
-          <div class="avatar-sm" aria-hidden="true">L</div>
+          <div class="avatar-sm" data-auth-avatar aria-hidden="true">L</div>
           <div class="profile-info">
-            <span class="profile-name">Local workspace</span>
-            <span class="profile-sub">Runs in your browser</span>
+            <span class="profile-name" data-auth-email data-auth-fallback="Local workspace">Local workspace</span>
+            <span class="profile-sub" data-auth-sub data-auth-fallback="Runs in your browser">Runs in your browser</span>
           </div>
         </div>
+        <button type="button" class="icon-btn" data-auth-signout hidden aria-label="Sign out" title="Sign out">
+          <svg class="icon"><use href="#i-logout"/></svg>
+        </button>
         <a class="icon-btn" href="settings.html" aria-label="Settings" title="Settings">
           <svg class="icon"><use href="#i-gear"/></svg>
         </a>
@@ -207,6 +211,8 @@
   </noscript>
 
   <script src="js/config.js"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/themes.js"></script>
@@ -221,6 +227,7 @@
       "use strict";
       LM.storage.init();
       LM.themes.apply();
+      LM.auth.gate("app");   /* no-op while Supabase is unconfigured */
       LM.chat.init();
       LM.code.init();
       LM.app.init();

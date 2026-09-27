@@ -1,0 +1,255 @@
+/* ==========================================================================
+   Lumina AI — login / signup page styles (login.html)
+   Built on the same design tokens as the app (css/themes.css) so the page
+   follows the user's chosen theme and accent automatically.
+   ========================================================================== */
+
+/* the app shell locks body scroll — the auth page is a normal document */
+body.auth-body { overflow: auto; }
+
+/* ---------------- backdrop ---------------- */
+
+.auth-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.auth-bg::before,
+.auth-bg::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.22;
+}
+.auth-bg::before {
+  width: 560px;
+  height: 560px;
+  top: -180px;
+  right: -120px;
+  background: radial-gradient(circle, var(--accent-primary), transparent 70%);
+}
+.auth-bg::after {
+  width: 640px;
+  height: 640px;
+  bottom: -240px;
+  left: -160px;
+  background: radial-gradient(circle, var(--accent-secondary), transparent 70%);
+}
+
+/* ---------------- layout ---------------- */
+
+.auth-wrap {
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 40px 16px;
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: -0.2px;
+}
+.auth-brand .lumina-logo { width: 30px; height: 30px; }
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 30px 28px 26px;
+}
+
+.auth-foot {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ---------------- card header + tabs ---------------- */
+
+.auth-title { margin: 0 0 4px; font-size: 19px; }
+.auth-sub {
+  margin: 0 0 20px;
+  color: var(--text-secondary);
+  font-size: 13.5px;
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  margin-bottom: 18px;
+}
+.auth-tab {
+  border: 0;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 8px 0;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.auth-tab:hover { color: var(--text-primary); }
+.auth-tab.active {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.18);
+}
+
+/* ---------------- messages ---------------- */
+
+.auth-msg,
+.auth-banner {
+  font-size: 13.5px;
+  line-height: 1.5;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin: 0 0 14px;
+}
+.auth-msg.error {
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--danger) 35%, transparent);
+  color: var(--danger);
+}
+.auth-msg.ok {
+  background: color-mix(in srgb, var(--ok) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ok) 35%, transparent);
+  color: var(--ok);
+}
+.auth-banner {
+  background: color-mix(in srgb, var(--warn) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--warn) 38%, transparent);
+  color: var(--warn);
+}
+
+/* ---------------- form ---------------- */
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth-hint {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.field-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.field a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+.field a:hover { text-decoration: underline; }
+
+.field input {
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.field input::placeholder { color: var(--text-muted); }
+.field input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 22%, transparent);
+}
+
+.pw-wrap { position: relative; }
+.pw-wrap input { padding-right: 44px; }
+.pw-toggle {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.pw-toggle:hover { color: var(--text-primary); background: var(--bg-hover); }
+.pw-toggle svg { width: 16px; height: 16px; }
+.pw-toggle .slash { display: none; }
+.pw-toggle.visible .slash { display: block; }
+
+.auth-submit {
+  margin-top: 4px;
+  width: 100%;
+  padding: 11px 18px;
+  font-size: 14px;
+}
+
+.auth-back {
+  align-self: flex-start;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.auth-back:hover { color: var(--text-primary); }
+
+.auth-skip {
+  display: block;
+  margin-top: 16px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+.auth-skip:hover { color: var(--text-primary); text-decoration: underline; }
+
+@media (max-width: 480px) {
+  .auth-card { padding: 24px 20px 22px; }
+}
