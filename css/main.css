@@ -138,6 +138,11 @@ button { font-family: inherit; }
 
 .side-actions { padding: 4px 10px; }
 
+/* chat-only sidebar sections disappear in the Lumina Bot view */
+body[data-view="bot"] .side-actions,
+body[data-view="bot"] .search-wrap,
+body[data-view="bot"] .conversation-list { display: none; }
+
 .side-item {
   display: flex;
   align-items: center;

@@ -277,6 +277,7 @@
     els.viewChat.hidden = v !== "chat";
     els.viewCode.hidden = v !== "code";
     if (els.viewBot) els.viewBot.hidden = v !== "bot";
+    document.body.dataset.view = v;
     if (v === "code") {
       LM.code.setVisible(true);
     } else if (v === "bot" && LM.bot) {
