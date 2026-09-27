@@ -14,6 +14,8 @@
     if (settings.ai.systemPrompt && settings.ai.systemPrompt.trim()) {
       parts.push(settings.ai.systemPrompt.trim());
     }
+    const skill = (LM.config.skills || {})[settings.ai.skill];
+    if (skill && skill.prompt) parts.push(skill.prompt);
     const lang = LANG_NAMES[settings.general.language];
     if (lang) parts.push("Always respond in " + lang + ".");
     if (settings.ai.responseLength === "concise") {

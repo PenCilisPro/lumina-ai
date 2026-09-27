@@ -55,6 +55,14 @@ const LUMINA_GUARD_PROMPT =
   "- Be precise and technical: give concrete commands, code, and configurations with safety notes.\n" +
   "- Structure answers: summary or findings first, then evidence or steps, then remediation.";
 
+const DEEP_THINK_PROMPT =
+  "Deep Thinking mode is active. Before answering, reason through the problem thoroughly:\n" +
+  "- Restate the problem and identify what is actually being asked.\n" +
+  "- Break the problem into steps and work through them carefully.\n" +
+  "- Consider alternative approaches and their trade-offs, and double-check your reasoning for errors.\n" +
+  "- State assumptions explicitly and address relevant edge cases.\n" +
+  "- Only then give a clear, well-structured final answer.";
+
 function getApiKey() {
   return process.env.NVIDIA_API_KEY || "";
 }
@@ -184,6 +192,11 @@ function sseStatus(status) {
 function injectPersona(payload, persona) {
   if (persona !== "code" && persona !== "guard") return;
   const prompt = persona === "code" ? LUMINA_CODE_PROMPT : LUMINA_GUARD_PROMPT;
+  injectSystemPrompt(payload, prompt);
+}
+
+/* Prepend a system prompt ahead of any existing one. */
+function injectSystemPrompt(payload, prompt) {
   if (payload.messages.length && payload.messages[0].role === "system") {
     payload.messages[0] = {
       role: "system",
@@ -231,6 +244,15 @@ async function proxyChat(parsed, res, opts) {
   if (parsed.max_tokens) payload.max_tokens = parsed.max_tokens;
   if (target.reasoning && parsed.reasoning_effort) payload.reasoning_effort = parsed.reasoning_effort;
   injectPersona(payload, target.persona);
+
+  /* deep think: push reasoning to maximum on reasoning-capable models,
+     raise the token budget to fit the longer chain of thought, and
+     inject the deep-think instructions (works on every model) */
+  if (parsed.deep_think) {
+    if (target.reasoning) payload.reasoning_effort = "xhigh";
+    if (!payload.max_tokens || payload.max_tokens < 8192) payload.max_tokens = 8192;
+    injectSystemPrompt(payload, DEEP_THINK_PROMPT);
+  }
 
   /* web search: run before the model call, inject results as context */
   if (parsed.web_search) {

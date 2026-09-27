@@ -12,7 +12,8 @@
          stream:           true|false,
          temperature:      0..2,
          max_tokens:       number,
-         reasoning_effort: "low"|"medium"|"high"|"xhigh"
+         reasoning_effort: "low"|"medium"|"high"|"xhigh",
+         deep_think:       true|false
        }
        response: OpenAI chat-completions compatible.
          stream=true  -> SSE  "data: {choices:[{delta:{content}}]}" ... "data: [DONE]"
@@ -103,6 +104,51 @@ LUMINA_CONFIG.thinkingLevels = {
   xhigh:  { label: "Extra High", effort: "xhigh",  desc: "Maximum reasoning effort" }
 };
 LUMINA_CONFIG.thinkingOrder = ["light", "medium", "high", "xhigh"];
+
+/* --------------------------------------------------------------------
+ * 5) SKILLS — built-in expert modes for the composer's Skill pill.
+ *    The active skill's `prompt` is injected as an extra system prompt
+ *    on every chat request (see js/ai.js → buildSystemPrompt). Add a
+ *    skill by adding an entry here: key -> { label, desc, prompt }.
+ * ------------------------------------------------------------------ */
+LUMINA_CONFIG.skills = {
+  study: {
+    label: "Study Coach",
+    desc: "Explain topics, build study plans, quiz you",
+    prompt:
+      "You are in Study Coach mode. Help the user learn: explain concepts clearly with simple analogies and concrete examples, break complex topics into digestible steps, and create structured study plans when asked. After an explanation, add 1-3 quick practice questions or recall prompts. If the user asks a direct factual question, answer it first, then reinforce it."
+  },
+  "code-review": {
+    label: "Code Reviewer",
+    desc: "Senior-engineer review of any code you paste",
+    prompt:
+      "You are in Code Review mode. Analyze code like a senior engineer doing a careful review: correctness bugs first, then security issues, performance problems, and readability improvements. Reference specific lines, explain why each issue matters, and provide corrected code snippets. Be direct but constructive, and acknowledge what the code does well."
+  },
+  writing: {
+    label: "Writing Assistant",
+    desc: "Drafting, editing, and improving text",
+    prompt:
+      "You are in Writing Assistant mode. Help the user draft and improve text: match the requested tone and format, improve clarity and flow, strengthen word choice, and fix grammar without changing the author's meaning. When editing, briefly note the most important changes and why. Offer alternatives where phrasing could go several ways."
+  },
+  research: {
+    label: "Research Analyst",
+    desc: "Structured, evidence-driven analysis",
+    prompt:
+      "You are in Research Analyst mode. Give structured, evidence-driven answers: lead with a concise summary, then lay out key findings, considerations, trade-offs, and uncertainties. Clearly distinguish established facts from your own inference, note when information may be outdated, and suggest what to verify or where to look next."
+  },
+  math: {
+    label: "Math Tutor",
+    desc: "Step-by-step solutions with verification",
+    prompt:
+      "You are in Math Tutor mode. Solve problems step by step, showing every meaningful step with the reasoning behind it. State the given information and what is being solved for before working, clearly mark final answers, verify results when possible (substitute back, estimate, or sanity-check), and end with a short note on the underlying technique so the user can apply it to similar problems."
+  },
+  brainstorm: {
+    label: "Brainstorm",
+    desc: "Many distinct, concrete ideas on demand",
+    prompt:
+      "You are in Brainstorm mode. Generate many distinct, creative ideas rather than iterating on one theme. Group ideas into categories, make each one concrete with a one-line pitch, include a few unconventional options, and finish by highlighting the two or three most promising ideas with a reason."
+  }
+};
 
 /* Expose as the single global config */
 LM.config = LUMINA_CONFIG;

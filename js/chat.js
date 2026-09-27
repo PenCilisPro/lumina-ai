@@ -15,8 +15,10 @@
     timedOut: false,
     editingMessageId: null,
     modelDD: null,
+    skillDD: null,
     thinkPop: null,
-    webSearch: false
+    webSearch: false,
+    deepThink: false
   };
 
   let els = {};
@@ -47,6 +49,19 @@
 
   function currentThinking() {
     return settings().ai.thinking || LM.config.defaults.thinking;
+  }
+
+  function currentSkill() {
+    return settings().ai.skill || "";
+  }
+
+  function skillOptions() {
+    const skills = LM.config.skills || {};
+    const opts = [{ value: "", label: "No skill", desc: "Chat without a skill" }];
+    Object.keys(skills).forEach(function (k) {
+      opts.push({ value: k, label: skills[k].label, desc: skills[k].desc });
+    });
+    return opts;
   }
 
   function modelOptions() {
@@ -170,7 +185,9 @@
       html +=
         '<div class="thinking-status" role="status">' +
           '<span class="thinking-dot"></span> Thinking<span class="dots"><span>.</span><span>.</span><span>.</span></span>' +
-          '<span class="thinking-level-note">' + ui.escapeHtml(LM.ai.thinkingLabel(currentThinking())) + "</span>" +
+          '<span class="thinking-level-note">' +
+            ui.escapeHtml(LM.ai.thinkingLabel(currentThinking()) + (chat.deepThink ? " · Deep Think" : "")) +
+          "</span>" +
         "</div>";
     }
 
@@ -313,6 +330,18 @@
     updateThinkingControl();
   }
 
+  function updateSkillControl() {
+    if (!chat.skillDD) return;
+    chat.skillDD.setOptions(skillOptions());
+    chat.skillDD.set(currentSkill());
+    chat.skillDD.disable(chat.generating);
+  }
+
+  function setSkill(key) {
+    LM.storage.updateSection("ai", { skill: key });
+    updateSkillControl();
+  }
+
   function setModel(name) {
     if (!name) return;
     if (chat.conversation) chat.conversation.model = name;
@@ -324,7 +353,9 @@
     els.composerArea.classList.toggle("generating", on);
     if (chat.modelDD) chat.modelDD.disable(on || !Object.keys(LM.config.models || {}).length);
     if (chat.thinkPop) chat.thinkPop.disable(on);
+    if (chat.skillDD) chat.skillDD.disable(on);
     if (els.searchToggle) els.searchToggle.disabled = on;
+    if (els.deepToggle) els.deepToggle.disabled = on;
     refreshSendButton();
   }
 
@@ -426,6 +457,7 @@
         maxTokens: LM.config.maxTokens,
         stream: !!settings().ai.streaming,
         web_search: !!chat.webSearch,
+        deep_think: !!chat.deepThink,
         signal: chat.controller.signal,
         onDelta: function (t) {
           if (!aiMsg.content && aiMsg.reasoning) {
@@ -593,6 +625,8 @@
       modelMount: document.getElementById("model-dd"),
       thinkMount: document.getElementById("thinking-dd"),
       searchToggle: document.getElementById("websearch-toggle"),
+      deepToggle: document.getElementById("deepthink-toggle"),
+      skillMount: document.getElementById("skills-dd"),
       editBanner: document.getElementById("edit-banner"),
       editCancel: document.getElementById("edit-cancel"),
       apiNote: document.getElementById("api-note")
@@ -651,6 +685,24 @@
       els.searchToggle.setAttribute("aria-pressed", chat.webSearch ? "true" : "false");
     });
 
+    /* deep think toggle pill (per-session, like web search) */
+    els.deepToggle.addEventListener("click", function () {
+      chat.deepThink = !chat.deepThink;
+      els.deepToggle.classList.toggle("active", chat.deepThink);
+      els.deepToggle.setAttribute("aria-pressed", chat.deepThink ? "true" : "false");
+    });
+
+    /* skill picker pill (persistent, like thinking level) */
+    chat.skillDD = ui.dropdown(els.skillMount, {
+      options: skillOptions(),
+      value: currentSkill(),
+      className: "dd-pill",
+      direction: "up",
+      ariaLabel: "Skill",
+      label: "Skill",
+      onChange: function (v) { setSkill(v); }
+    });
+
     els.input.addEventListener("input", function () { autoGrow(); refreshSendButton(); });
     els.input.addEventListener("keydown", onInputKeydown);
     els.send.addEventListener("click", handleSend);
@@ -675,6 +727,7 @@
 
     updateModelControls();
     updateThinkingControl();
+    updateSkillControl();
     updateApiNote();
     refreshSendButton();
     renderAll();

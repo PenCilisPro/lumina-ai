@@ -27,6 +27,7 @@
     ai: {
       defaultModel: LM.config.defaults.model,
       thinking: LM.config.defaults.thinking, // light|medium|high|xhigh
+      skill: "",                // active skill key from LM.config.skills ("" = none)
       temperature: 0.7,
       streaming: true,
       systemPrompt: "",

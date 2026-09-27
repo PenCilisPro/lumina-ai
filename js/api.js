@@ -60,6 +60,7 @@
     if (!flags.noReasoning && level) body.reasoning_effort = level.effort;
     body.max_tokens = opts.maxTokens || LM.config.maxTokens;
     if (opts.web_search) body.web_search = true;
+    if (opts.deep_think) body.deep_think = true;
     return body;
   }
 
