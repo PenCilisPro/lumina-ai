@@ -1,0 +1,13 @@
+# Secrets — never commit
+server/.env
+.env
+
+# Local security-scanner state
+.mimosa/
+
+# Dependencies
+node_modules/
+
+# OS / editor noise
+Thumbs.db
+.DS_Store

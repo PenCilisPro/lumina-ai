@@ -1,0 +1,206 @@
+/* ==========================================================================
+   Lumina AI — themes.css
+   Design tokens (CSS variables), theme palettes, accent palettes and
+   appearance modifiers. Everything is driven by data attributes on <html>
+   so theme changes are instant and persist without a reload.
+   ========================================================================== */
+
+:root {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
+
+  --font-scale: 1;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  --accent-primary: #3b82f6;
+  --accent-secondary: #8b5cf6;
+  --gradient-accent: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+
+  --shadow-soft: 0 10px 34px rgba(0, 0, 0, 0.35);
+  --shadow-pop: 0 12px 36px rgba(0, 0, 0, 0.28), 0 2px 8px rgba(0, 0, 0, 0.18);
+  --glow: 0 0 24px color-mix(in srgb, var(--accent-primary) 30%, transparent);
+
+  /* Base palette: Lumina Dark (default) — ChatGPT-style neutrals */
+  --bg-app: #171717;
+  --bg-primary: #212121;
+  --bg-secondary: #171717;
+  --bg-elevated: rgba(255, 255, 255, 0.055);
+  --bg-hover: rgba(255, 255, 255, 0.09);
+  --bubble: #2f2f2f;
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.17);
+  --text-primary: #ececec;
+  --text-secondary: #b4b4b4;
+  --text-muted: #8e8e8e;
+  --code-bg: #0d0d0d;
+  --danger: #f87171;
+  --ok: #34d399;
+  --warn: #fbbf24;
+  --scrollbar: rgba(255, 255, 255, 0.14);
+  color-scheme: dark;
+}
+
+/* ---------------- theme palettes ---------------- */
+
+[data-theme="midnight"] {
+  --bg-app: #0a0a0c;
+  --bg-primary: #111114;
+  --bg-secondary: #0a0a0c;
+  --bg-elevated: rgba(255, 255, 255, 0.04);
+  --bg-hover: rgba(255, 255, 255, 0.08);
+  --bubble: #1d1d22;
+  --border: rgba(255, 255, 255, 0.07);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --text-primary: #e6e6eb;
+  --text-secondary: #9b9ba6;
+  --text-muted: #6b6b77;
+  --code-bg: #070709;
+}
+
+[data-theme="aurora"] {
+  --bg-app: #0c1517;
+  --bg-primary: #101d20;
+  --bg-secondary: #0c1517;
+  --bg-elevated: rgba(148, 233, 210, 0.055);
+  --bg-hover: rgba(148, 233, 210, 0.1);
+  --bubble: #163036;
+  --border: rgba(148, 233, 210, 0.12);
+  --border-strong: rgba(148, 233, 210, 0.22);
+  --text-primary: #dcefe9;
+  --text-secondary: #9ab8b2;
+  --text-muted: #62857f;
+  --code-bg: #081012;
+}
+
+[data-theme="deep-space"] {
+  --bg-app: #0d0b16;
+  --bg-primary: #14111f;
+  --bg-secondary: #0d0b16;
+  --bg-elevated: rgba(167, 139, 250, 0.07);
+  --bg-hover: rgba(167, 139, 250, 0.13);
+  --bubble: #221c38;
+  --border: rgba(167, 139, 250, 0.13);
+  --border-strong: rgba(167, 139, 250, 0.24);
+  --text-primary: #eae6fb;
+  --text-secondary: #aaa2d4;
+  --text-muted: #7670a3;
+  --code-bg: #0a0813;
+}
+
+[data-theme="light"] {
+  --bg-app: #f9f9f9;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9f9f9;
+  --bg-elevated: rgba(13, 13, 13, 0.045);
+  --bg-hover: rgba(13, 13, 13, 0.075);
+  --bubble: #f0f0f0;
+  --border: rgba(13, 13, 13, 0.09);
+  --border-strong: rgba(13, 13, 13, 0.18);
+  --text-primary: #0d0d0d;
+  --text-secondary: #5d5d5d;
+  --text-muted: #8f8f8f;
+  --code-bg: #f6f8fa;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --shadow-pop: 0 12px 36px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.07);
+  --glow: 0 0 20px color-mix(in srgb, var(--accent-primary) 20%, transparent);
+  --scrollbar: rgba(0, 0, 0, 0.18);
+  color-scheme: light;
+}
+
+/* ---------------- accent palettes ---------------- */
+
+[data-accent="blue"]   { --accent-primary: #3b82f6; --accent-secondary: #8b5cf6; }
+[data-accent="purple"] { --accent-primary: #8b5cf6; --accent-secondary: #d946ef; }
+[data-accent="indigo"] { --accent-primary: #6366f1; --accent-secondary: #a855f7; }
+[data-accent="violet"] { --accent-primary: #7c3aed; --accent-secondary: #ec4899; }
+[data-accent="cyan"]   { --accent-primary: #06b6d4; --accent-secondary: #3b82f6; }
+
+:root, [data-accent] {
+  --gradient-accent: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+}
+
+/* ---------------- sizing modifiers ---------------- */
+
+[data-fontsize="small"]  { --font-scale: 0.92; }
+[data-fontsize="medium"] { --font-scale: 1; }
+[data-fontsize="large"]  { --font-scale: 1.09; }
+
+[data-radius="small"]  { --radius: 9px;  --radius-sm: 6px;  --radius-lg: 13px; }
+[data-radius="medium"] { --radius: 14px; --radius-sm: 8px;  --radius-lg: 20px; }
+[data-radius="large"]  { --radius: 20px; --radius-sm: 12px; --radius-lg: 28px; }
+
+/* ---------------- background styles ---------------- */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(1000px 620px at 12% -10%, color-mix(in srgb, var(--accent-primary) 16%, transparent), transparent 62%),
+    radial-gradient(900px 560px at 90% -4%, color-mix(in srgb, var(--accent-secondary) 13%, transparent), transparent 60%),
+    radial-gradient(760px 520px at 50% 112%, color-mix(in srgb, var(--accent-secondary) 9%, transparent), transparent 62%);
+}
+
+[data-theme="light"] body::before { opacity: 0.4; }
+[data-bg="subtle"] body::before { opacity: 0.4; }
+[data-bg="solid"] body::before { display: none; }
+
+/* ---------------- sidebar styles ---------------- */
+
+[data-sidebar="solid"] .sidebar { background: var(--bg-secondary); }
+[data-sidebar="glass"] .sidebar {
+  background: color-mix(in srgb, var(--bg-secondary) 72%, transparent);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+[data-sidebar="minimal"] .sidebar { background: transparent; }
+
+/* ---------------- message styles ---------------- */
+
+[data-msgstyle="full"] .msg-user .msg-row { justify-content: flex-start; }
+[data-msgstyle="full"] .msg-user .msg-body { max-width: 100%; }
+[data-msgstyle="full"] .user-text {
+  background: transparent !important;
+  border: none !important;
+  padding: 2px 0 !important;
+}
+
+/* ---------------- motion & focus ---------------- */
+
+.no-animations *,
+.no-animations *::before,
+.no-animations *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------------- scrollbars ---------------- */
+
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover { background-color: var(--border-strong); background-clip: content-box; }
+* { scrollbar-width: thin; scrollbar-color: var(--scrollbar) transparent; }

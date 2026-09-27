@@ -1,0 +1,9 @@
+{
+  "name": "lumina-ai",
+  "private": true,
+  "version": "1.1.0",
+  "description": "Lumina AI — chat frontend + bundled NVIDIA NIM backend",
+  "scripts": {
+    "start": "node server/server.js"
+  }
+}

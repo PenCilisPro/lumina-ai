@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lumina AI — Settings">
+  <title>Settings · Lumina AI</title>
+  <link rel="icon" type="image/svg+xml" href="assets/lumina-logo.svg">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/chat.css">
+  <link rel="stylesheet" href="css/settings.css">
+</head>
+<body>
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+  </svg>
+
+  <div class="settings-app">
+
+    <!-- ============ navigation ============ -->
+    <aside class="settings-nav">
+      <a class="brand" href="index.html">
+        <svg class="lumina-logo" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="lumina-g-s1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#5b8cff"/><stop offset="100%" stop-color="#8b5cf6"/>
+            </linearGradient>
+          </defs>
+          <mask id="lumina-m-s1"><rect width="48" height="48" fill="#fff"/><circle cx="34" cy="14" r="18" fill="#000"/></mask>
+          <circle cx="24" cy="26" r="16" fill="url(#lumina-g-s1)" mask="url(#lumina-m-s1)"/>
+        </svg>
+        <span>Lumina AI</span>
+      </a>
+
+      <nav aria-label="Settings sections">
+        <a href="#sec-general" class="active">General</a>
+        <a href="#sec-appearance">Appearance</a>
+        <a href="#sec-ai">AI</a>
+        <a href="#sec-chat">Chat</a>
+        <a href="#sec-api">API</a>
+        <a href="#sec-about">About</a>
+      </nav>
+
+      <a class="back-link" href="index.html">
+        <svg class="icon" style="width:15px;height:15px;vertical-align:-2px"><use href="#i-back"/></svg>
+        Back to chat
+      </a>
+    </aside>
+
+    <!-- ============ content ============ -->
+    <main class="settings-main">
+      <div class="settings-content">
+
+        <!-- ================= GENERAL ================= -->
+        <section id="sec-general" class="settings-section">
+          <h2>General</h2>
+          <p class="section-desc">Basic behavior of the application.</p>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Response language</h3>
+              <p>Language Lumina uses when replying (added as an instruction to the model).</p>
+            </div>
+            <div class="setting-control">
+              <div id="dd-language" aria-label="Response language"></div>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Enter key behavior</h3>
+              <p>Choose how the Enter key behaves in the message composer.</p>
+            </div>
+            <div class="setting-control">
+              <div id="dd-enter" aria-label="Enter key behavior"></div>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Compact mode</h3>
+              <p>Tighter spacing across messages, composer and lists.</p>
+            </div>
+            <div class="setting-control">
+              <label class="switch">
+                <input type="checkbox" id="chk-compact" aria-label="Compact mode">
+                <span class="track"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Animations</h3>
+              <p>Enable transitions and motion effects.</p>
+            </div>
+            <div class="setting-control">
+              <label class="switch">
+                <input type="checkbox" id="chk-animations" aria-label="Animations">
+                <span class="track"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="danger-zone">
+            <h3>Reset settings</h3>
+            <p>Restore every setting to its default value. Conversations are not deleted.</p>
+            <button type="button" id="btn-reset-settings" class="btn btn-danger">Reset all settings</button>
+          </div>
+        </section>
+
+        <!-- ================= APPEARANCE ================= -->
+        <section id="sec-appearance" class="settings-section">
+          <h2>Appearance</h2>
+          <p class="section-desc">Themes and visual style — changes apply instantly.</p>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Theme</h3>
+              <p>Base color palette for the whole interface.</p>
+            </div>
+            <div class="setting-control">
+              <div class="option-group" id="theme-options" role="group" aria-label="Theme">
+                <button type="button" class="option-btn" data-theme="lumina-dark">Lumina Dark</button>
+                <button type="button" class="option-btn" data-theme="midnight">Midnight</button>
+                <button type="button" class="option-btn" data-theme="aurora">Aurora</button>
+                <button type="button" class="option-btn" data-theme="deep-space">Deep Space</button>
+                <button type="button" class="option-btn" data-theme="light">Light</button>
+                <button type="button" class="option-btn" data-theme="custom">Custom</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="setting-row" id="row-custom-base" hidden>
+            <div class="info">
+              <h3>Custom base</h3>
+              <p>Base palette used by the Custom theme.</p>
+            </div>
+            <div class="setting-control">
+              <div class="option-group" id="custom-base-options" role="group" aria-label="Custom base">
+                <button type="button" class="option-btn" data-base="dark">Dark</button>
+                <button type="button" class="option-btn" data-base="light">Light</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Accent color</h3>
+              <p>Primary accent used across the interface.</p>
+            </div>
+            <div class="setting-control">
+              <div class="option-group" id="accent-options" role="group" aria-label="Accent color">
+                <button type="button" class="swatch" data-accent="blue"   style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)" aria-label="Blue"></button>
+                <button type="button" class="swatch" data-accent="purple" style="background:linear-gradient(135deg,#8b5cf6,#d946ef)" aria-label="Purple"></button>
+                <button type="button" class="swatch" data-accent="indigo" style="background:linear-gradient(135deg,#6366f1,#a855f7)" aria-label="Indigo"></button>
+                <button type="button" class="swatch" data-accent="violet" style="background:linear-gradient(135deg,#7c3aed,#ec4899)" aria-label="Violet"></button>
+                <button type="button" class="swatch" data-accent="cyan"   style="background:linear-gradient(135deg,#06b6d4,#3b82f6)" aria-label="Cyan"></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Background style</h3>
+              <p>How the ambient background glow is rendered.</p>
+            </div>
+            <div class="setting-control">
+              <div id="dd-background" aria-label="Background style"></div>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Message style</h3>
+              <p>Bubbles or full-width messages.</p>
+            </div>
+            <div class="setting-control">
+              <div id="dd-message-style" aria-label="Message style"></div>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Sidebar style</h3>
+              <p>Visual treatment of the sidebar panel.</p>
+            </div>
+            <div class="setting-control">
+              <div id="dd-sidebar-style" aria-label="Sidebar style"></div>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Font size</h3>
+              <p>Base text size for the interface.</p>
+            </div>
+            <div class="setting-control">
+              <div id="dd-font-size" aria-label="Font size"></div>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>UI density</h3>
+              <p>Comfortable spacing or a compact layout.</p>
+            </div>
+            <div class="setting-control">
+              <div id="dd-density" aria-label="UI density"></div>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Border radius</h3>
+              <p>Roundness of cards, inputs and panels.</p>
+            </div>
+            <div class="setting-control">
+              <div id="dd-radius" aria-label="Border radius"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= AI ================= -->
+        <section id="sec-ai" class="settings-section">
+          <h2>AI</h2>
+          <p class="section-desc">Model and generation behavior.</p>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Default model</h3>
+              <p>Model used for new conversations.</p>
+            </div>
+            <div class="setting-control">
+              <div id="dd-default-model" aria-label="Default model"></div>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Default thinking level</h3>
+              <p>Reasoning effort for new chats. Unsupported settings fall back gracefully.</p>
+            </div>
+            <div class="setting-control">
+              <div id="dd-thinking" aria-label="Default thinking level"></div>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Temperature</h3>
+              <p>Randomness of responses (0 = focused, 2 = creative). Sent when the backend supports it.</p>
+            </div>
+            <div class="setting-control">
+              <div class="range-wrap">
+                <input type="range" id="rng-temperature" min="0" max="2" step="0.1" aria-label="Temperature">
+                <span class="range-value" id="temp-value">0.7</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Streaming</h3>
+              <p>Show responses progressively as they are generated.</p>
+            </div>
+            <div class="setting-control">
+              <label class="switch">
+                <input type="checkbox" id="chk-streaming" aria-label="Streaming">
+                <span class="track"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="setting-row column">
+            <div class="info">
+              <h3>System prompt</h3>
+              <p>Optional instructions sent to the model at the start of every conversation.</p>
+            </div>
+            <textarea id="txt-system-prompt" aria-label="System prompt" placeholder="e.g. You are a concise, friendly assistant. Prefer examples over long explanations."></textarea>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Response length</h3>
+              <p>Guidance given to the model about how long replies should be.</p>
+            </div>
+            <div class="setting-control">
+              <div id="dd-response-length" aria-label="Response length"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= CHAT ================= -->
+        <section id="sec-chat" class="settings-section">
+          <h2>Chat</h2>
+          <p class="section-desc">Conversation and history behavior.</p>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Save conversation history</h3>
+              <p>Store conversations in this browser (localStorage).</p>
+            </div>
+            <div class="setting-control">
+              <label class="switch">
+                <input type="checkbox" id="chk-save-history" aria-label="Save conversation history">
+                <span class="track"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Automatically name conversations</h3>
+              <p>Generate a title from the first message you send.</p>
+            </div>
+            <div class="setting-control">
+              <label class="switch">
+                <input type="checkbox" id="chk-autoname" aria-label="Automatically name conversations">
+                <span class="track"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Show timestamps</h3>
+              <p>Display the time next to each message.</p>
+            </div>
+            <div class="setting-control">
+              <label class="switch">
+                <input type="checkbox" id="chk-timestamps" aria-label="Show timestamps">
+                <span class="track"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="info">
+              <h3>Confirm before delete</h3>
+              <p>Ask for confirmation before permanently deleting a conversation.</p>
+            </div>
+            <div class="setting-control">
+              <label class="switch">
+                <input type="checkbox" id="chk-confirm-delete" aria-label="Confirm before delete">
+                <span class="track"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="danger-zone">
+            <h3>Delete all conversations</h3>
+            <p>Permanently removes every conversation stored in this browser.</p>
+            <button type="button" id="btn-clear-chats" class="btn btn-danger">Delete all conversations</button>
+          </div>
+        </section>
+
+        <!-- ================= API ================= -->
+        <section id="sec-api" class="settings-section">
+          <h2>API</h2>
+          <p class="section-desc">
+            Lumina talks to <strong>your backend</strong>, which holds the provider credentials —
+            no API keys are stored or needed in the browser. The endpoint is defined in
+            <code>js/config.js → backend</code>; you can override it here.
+          </p>
+
+          <div class="setting-row column">
+            <div class="info">
+              <h3>Backend URL</h3>
+              <p>
+                The chat endpoint receives an OpenAI-compatible payload and streams the reply back
+                (see README for the full contract). Leave empty to use js/config.js.
+              </p>
+            </div>
+            <input type="text" id="inp-backend-url" placeholder="/api/chat" aria-label="Backend URL" autocomplete="off">
+            <p class="key-hint" id="api-key-hint"></p>
+          </div>
+
+          <div class="setting-row column">
+            <div class="info">
+              <h3>Available models</h3>
+              <p>Configured in the <code>models</code> section of <code>js/config.js</code>; your backend routes them to the real provider.</p>
+            </div>
+            <table class="models-table">
+              <thead>
+                <tr><th scope="col">Lumina model</th><th scope="col">Backend model ID</th></tr>
+              </thead>
+              <tbody id="api-models"></tbody>
+            </table>
+          </div>
+
+          <div class="setting-row column">
+            <div class="info">
+              <h3>Connection status</h3>
+              <p>Verify your backend is reachable from this page.</p>
+            </div>
+            <div class="setting-control" style="justify-content:flex-start">
+              <button type="button" id="btn-test-connection" class="btn btn-primary">Test Connection</button>
+            </div>
+            <div id="api-status" class="api-status" role="status" aria-live="polite" hidden></div>
+          </div>
+        </section>
+
+        <!-- ================= ABOUT ================= -->
+        <section id="sec-about" class="settings-section">
+          <h2>About</h2>
+          <p class="section-desc">Application information.</p>
+
+          <div class="about-card">
+            <svg class="lumina-logo" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+              <defs>
+                <linearGradient id="lumina-g-s2" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#5b8cff"/><stop offset="100%" stop-color="#8b5cf6"/>
+                </linearGradient>
+              </defs>
+              <mask id="lumina-m-s2"><rect width="48" height="48" fill="#fff"/><circle cx="34" cy="14" r="18" fill="#000"/></mask>
+              <circle cx="24" cy="26" r="16" fill="url(#lumina-g-s2)" mask="url(#lumina-m-s2)"/>
+            </svg>
+            <h3>Lumina AI</h3>
+            <p class="version" id="about-version">Version 1.1.0</p>
+            <p class="powered">Powered by <span id="about-provider">your backend</span></p>
+            <p class="security-note">
+              Lumina AI is a client-side application that runs entirely in your browser. All AI
+              requests go through your backend, which owns the provider credentials — no keys are
+              stored in the frontend, in browser storage, or in this repository. Conversations are
+              saved only in this browser's localStorage.
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <noscript>
+    <p style="padding:24px;font-family:sans-serif">Lumina AI requires JavaScript to run.</p>
+  </noscript>
+
+  <script src="js/config.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/settings.js"></script>
+  <script>
+    (function () {
+      "use strict";
+      LM.storage.init();
+      LM.settings.init();
+    })();
+  </script>
+</body>
+</html>

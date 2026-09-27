@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lumina AI — think, create, and explore.">
+  <title>Lumina AI</title>
+  <link rel="icon" type="image/svg+xml" href="assets/lumina-logo.svg">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/chat.css">
+  <link rel="stylesheet" href="css/code.css">
+</head>
+<body>
+
+  <!-- icon sprite -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 6 12 12"/><path d="m18 6-12 12"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3"/><path d="M12 18v3"/><path d="M3 12h3"/><path d="M18 12h3"/><path d="M5.6 5.6l2.2 2.2"/><path d="M16.2 16.2l2.2 2.2"/><path d="M5.6 18.4l2.2-2.2"/><path d="M16.2 7.8l2.2-2.2"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="7" width="10" height="10" rx="2"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15.3 15.3 0 0 1 4 9 15.3 15.3 0 0 1-4 9 15.3 15.3 0 0 1-4-9 15.3 15.3 0 0 1 4-9z"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 17 6-6-6-6"/><path d="M12 19h8"/></symbol>
+  </svg>
+
+  <div class="app">
+
+    <!-- ============ sidebar ============ -->
+    <aside id="sidebar" class="sidebar" aria-label="Conversations sidebar">
+      <div class="sidebar-header">
+        <a class="brand" href="index.html">
+          <svg class="lumina-logo" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient id="lumina-g-a" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#5b8cff"/><stop offset="100%" stop-color="#8b5cf6"/>
+              </linearGradient>
+            </defs>
+            <mask id="lumina-m-a"><rect width="48" height="48" fill="#fff"/><circle cx="34" cy="14" r="18" fill="#000"/></mask>
+            <circle cx="24" cy="26" r="16" fill="url(#lumina-g-a)" mask="url(#lumina-m-a)"/>
+          </svg>
+          <span>Lumina AI</span>
+        </a>
+        <button id="sidebar-close" class="icon-btn sidebar-close" type="button" aria-label="Close sidebar">
+          <svg class="icon"><use href="#i-close"/></svg>
+        </button>
+      </div>
+
+      <div class="side-actions">
+        <button id="new-chat-btn" class="side-item side-new" type="button">
+          <svg class="icon"><use href="#i-plus"/></svg> New chat
+        </button>
+      </div>
+
+      <div class="search-wrap">
+        <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+        <input id="search-input" type="search" placeholder="Search conversations..." aria-label="Search conversations" autocomplete="off">
+      </div>
+
+      <nav id="conversation-list" class="conversation-list" aria-label="Conversation history"></nav>
+
+      <div class="sidebar-footer">
+        <div class="profile">
+          <div class="avatar-sm" aria-hidden="true">L</div>
+          <div class="profile-info">
+            <span class="profile-name">Local workspace</span>
+            <span class="profile-sub">Runs in your browser</span>
+          </div>
+        </div>
+        <a class="icon-btn" href="settings.html" aria-label="Settings" title="Settings">
+          <svg class="icon"><use href="#i-gear"/></svg>
+        </a>
+      </div>
+    </aside>
+
+    <div id="sidebar-overlay" aria-hidden="true"></div>
+
+    <!-- ============ main ============ -->
+    <main class="main">
+
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="menu-btn" class="icon-btn mobile-only" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="sidebar">
+            <svg class="icon"><use href="#i-menu"/></svg>
+          </button>
+        </div>
+        <div class="topbar-tabs" role="tablist" aria-label="Lumina views">
+          <button type="button" class="top-tab active" data-view="chat" role="tab" aria-selected="true">
+            <svg class="icon" style="width:14px;height:14px"><use href="#i-sparkle"/></svg> Chat
+          </button>
+          <button type="button" class="top-tab" data-view="code" role="tab" aria-selected="false">
+            <svg class="icon" style="width:14px;height:14px"><use href="#i-terminal"/></svg> Lumina Code
+          </button>
+        </div>
+        <div class="topbar-right">
+          <a class="icon-btn" href="settings.html" aria-label="Settings" title="Settings">
+            <svg class="icon"><use href="#i-gear"/></svg>
+          </a>
+        </div>
+      </header>
+
+      <!-- ============ chat view ============ -->
+      <div id="view-chat" class="view-chat">
+
+      <!-- welcome screen -->
+      <section id="welcome" aria-label="Welcome">
+        <div class="welcome-logo">
+          <svg class="lumina-logo" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient id="lumina-g-c" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#5b8cff"/><stop offset="100%" stop-color="#8b5cf6"/>
+              </linearGradient>
+            </defs>
+            <mask id="lumina-m-c"><rect width="48" height="48" fill="#fff"/><circle cx="34" cy="14" r="18" fill="#000"/></mask>
+            <circle cx="24" cy="26" r="16" fill="url(#lumina-g-c)" mask="url(#lumina-m-c)"/>
+          </svg>
+        </div>
+        <h1 class="welcome-title">Welcome to <span class="grad-text">Lumina AI</span></h1>
+        <p class="welcome-sub">Think, create, and explore with Lumina.</p>
+        <div class="suggestions">
+          <button type="button" class="suggestion" data-prompt="Explain quantum computing simply">
+            <svg class="icon"><use href="#i-sparkle"/></svg>Explain quantum computing simply
+          </button>
+          <button type="button" class="suggestion" data-prompt="Help me write a website">
+            <svg class="icon"><use href="#i-sparkle"/></svg>Help me write a website
+          </button>
+          <button type="button" class="suggestion" data-prompt="Analyze this idea">
+            <svg class="icon"><use href="#i-sparkle"/></svg>Analyze this idea
+          </button>
+          <button type="button" class="suggestion" data-prompt="Create a study plan">
+            <svg class="icon"><use href="#i-sparkle"/></svg>Create a study plan
+          </button>
+        </div>
+      </section>
+
+      <!-- conversation -->
+      <div id="messages" role="log" aria-live="polite" aria-label="Conversation messages"></div>
+
+      <!-- composer -->
+      <div id="composer-area">
+        <div id="edit-banner" hidden>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          <span>Editing an earlier message — sending will replace the conversation from this point.</span>
+          <button id="edit-cancel" class="btn-cancel-small" type="button">Cancel</button>
+        </div>
+
+        <div class="composer">
+          <div class="composer-input-row">
+            <textarea id="composer-input" rows="1" placeholder="Message Lumina..." aria-label="Message Lumina"></textarea>
+          </div>
+          <div class="composer-bottom">
+            <div class="composer-pills">
+              <button id="websearch-toggle" class="pill-toggle" type="button" aria-pressed="false" title="Search the web">
+                <svg class="icon"><use href="#i-globe"/></svg> Search
+              </button>
+              <div id="model-dd" aria-label="Model"></div>
+              <div id="thinking-dd" aria-label="Thinking level"></div>
+            </div>
+            <button id="composer-send" class="send-btn" type="button" aria-label="Send message" disabled>
+              <svg class="icon icon-send"><use href="#i-arrow-up"/></svg>
+              <svg class="icon icon-stop"><use href="#i-stop"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <p class="composer-disclaimer">
+          Lumina can make mistakes — verify important information.
+          <span id="api-note"></span>
+        </p>
+      </div>
+
+      </div><!-- /view-chat -->
+
+      <!-- ============ lumina code view (terminal) ============ -->
+      <div id="view-code" class="view-code" hidden>
+        <div class="term">
+          <div class="term-head">
+            <span class="term-brand">✦ Lumina Code</span>
+            <span class="term-ver">v1.0 · agentic coding assistant</span>
+            <span class="term-models" role="group" aria-label="Lumina Code model">
+              <button type="button" class="term-model-pill" data-code-model="code">Lumina Code</button>
+              <button type="button" class="term-model-pill" data-code-model="guard">Lumina Guard</button>
+            </span>
+          </div>
+          <div class="term-body" id="code-output" aria-live="polite" aria-label="Lumina Code session output"></div>
+          <div class="term-input-row">
+            <span class="term-prompt" aria-hidden="true">❯</span>
+            <input id="code-input" type="text" autocomplete="off" spellcheck="false"
+                   placeholder="Ask Lumina Code to build, debug, or explain…" aria-label="Lumina Code prompt">
+            <span class="term-hint" id="code-hint">Enter to send · /help for commands</span>
+          </div>
+          <div class="term-status">
+            <span id="code-status-model">Lumina Code 1.0</span>
+            <span id="code-status-note"></span>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <noscript>
+    <p style="padding:24px;font-family:sans-serif">Lumina AI requires JavaScript to run.</p>
+  </noscript>
+
+  <script src="js/config.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/markdown.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/code.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    (function () {
+      "use strict";
+      LM.storage.init();
+      LM.themes.apply();
+      LM.chat.init();
+      LM.code.init();
+      LM.app.init();
+    })();
+  </script>
+</body>
+</html>

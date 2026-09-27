@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Lumina AI logo">
+  <defs>
+    <linearGradient id="lumina-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5b8cff"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <filter id="lumina-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2.2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <mask id="lumina-mask">
+    <rect width="48" height="48" fill="#fff"/>
+    <circle cx="34" cy="14" r="18" fill="#000"/>
+  </mask>
+  <circle cx="24" cy="26" r="16" fill="url(#lumina-grad)" mask="url(#lumina-mask)" filter="url(#lumina-glow)"/>
+</svg>
