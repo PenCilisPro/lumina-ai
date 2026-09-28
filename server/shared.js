@@ -28,13 +28,13 @@ const NVIDIA_BASE = "https://integrate.api.nvidia.com/v1";
 
 const MODELS = {
   "lumina-comet":   { id: "nvidia/nemotron-3.5-lightning-30b-a3b", reasoning: false },
-  "lumina-aurora":  { id: "mistralai/mistral-large-2-instruct",  reasoning: false },
-  "lumina-eclipse": { id: "z-ai/glm-5.3-flash",                    reasoning: true },
+  "lumina-aurora":  { id: "nvidia/nemotron-3-ultra-550b-a55b",     reasoning: false },
+  "lumina-eclipse": { id: "openai/gpt-oss-20b",                    reasoning: false },
   /* Lumina Code / Lumina Guard are exclusive to the Lumina Code tab —
      they are not selectable as chat models. The upstream model behind
      each persona is an implementation detail the UI never shows.     */
-  "lumina-code":    { id: "moonshotai/kimi-k3",                    reasoning: false, persona: "code" },
-  "lumina-guard":   { id: "z-ai/glm-5.3-flash",                    reasoning: false, persona: "guard" }
+  "lumina-code":    { id: "nvidia/nemotron-3-ultra-550b-a55b",     reasoning: false, persona: "code" },
+  "lumina-guard":   { id: "openai/gpt-oss-20b",                    reasoning: false, persona: "guard" }
 };
 
 const LUMINA_CODE_PROMPT =
