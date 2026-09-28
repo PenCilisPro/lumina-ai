@@ -28,7 +28,7 @@ const NVIDIA_BASE = "https://integrate.api.nvidia.com/v1";
 
 const MODELS = {
   "lumina-comet":   { id: "nvidia/nemotron-3.5-lightning-30b-a3b", reasoning: false },
-  "lumina-aurora":  { id: "deepseek-ai/deepseek-v4.1-flash",       reasoning: false },
+  "lumina-aurora":  { id: "deepseek-ai/deepseek-r1",  reasoning: false },
   "lumina-eclipse": { id: "z-ai/glm-5.3-flash",                    reasoning: true },
   /* Lumina Code / Lumina Guard are exclusive to the Lumina Code tab —
      they are not selectable as chat models. The upstream model behind
