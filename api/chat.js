@@ -34,3 +34,4 @@ module.exports = async function handler(req, res) {
 };
 
 module.exports.config = { api: { bodyParser: false } };
+module.exports.maxDuration = 60;
