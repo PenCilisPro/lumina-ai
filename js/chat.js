@@ -1,7 +1,6 @@
 /* Lumina AI — chat area: message rendering, composer, streaming,
    stop generation, regenerate, edit, copy, and the two composer pills
    (model picker popup + thinking popup with slider). */
-export const maxDuration = 60;
 (function () {
   "use strict";
   window.LM = window.LM || {};
